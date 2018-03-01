@@ -16,129 +16,149 @@
 
 package io.fabric8.maven.rt;
 
+import io.fabric8.maven.rt.helper.OpenshiftClientOperations;
+import io.fabric8.maven.rt.helper.PomModifier;
+import io.fabric8.maven.rt.rules.Project;
+import io.fabric8.maven.rt.rules.TestBed;
 import io.fabric8.openshift.api.model.Route;
-import okhttp3.Response;
-import org.apache.commons.io.FileUtils;
-import org.eclipse.jgit.lib.Repository;
-import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Test;
-
+import io.fabric8.openshift.client.OpenShiftClient;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import okhttp3.Response;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
 
 import static io.fabric8.kubernetes.assertions.Assertions.assertThat;
 
 public class VertxConfigmapBoosterIT extends BaseBoosterIT {
-    private final String SPRING_BOOT_CONFIGMAP_BOOSTER_GIT = "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster.git";
 
-    private final String TESTSUITE_CONFIGMAP_NAME = "app-config";
+   @ClassRule
+   public static final TestBed TEST_BED =
+      new TestBed("https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster.git");
 
-    private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL = "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true -DskipTests", EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE = "openshift";
+   @Rule
+   public final Project project = new Project(TEST_BED);
 
-    private final String TEST_ENDPOINT = "/api/greeting";
+   private final String TESTSUITE_CONFIGMAP_NAME = "app-config";
 
-    private final String ANNOTATION_KEY = "vertx-configmap-testKey", ANNOTATION_VALUE = "vertx-configmap-testValue";
+   private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL =
+      "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true -DskipTests",
+      EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE = "openshift";
 
-    private final String appConfigFile = "/app-config.yml";
+   private final String ANNOTATION_KEY = "vertx-configmap-testKey", ANNOTATION_VALUE = "vertx-configmap-testValue";
 
-    private final String RELATIVE_POM_PATH = "/pom.xml";
+   private final String appConfigFile = "/app-config.yml";
 
-    @Test
-    public void deploy_vertx_app_once() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_CONFIGMAP_BOOSTER_GIT, RELATIVE_POM_PATH);
+   private OpenShiftClient openShiftClient;
+   private PomModifier pomModifier;
+   private OpenshiftClientOperations clientOperations;
 
-        createViewRoleToServiceAccount();
-        createConfigMapResourceForApp(TESTSUITE_CONFIGMAP_NAME);
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, "deploymentType", "deployOnce", fmpConfigurationFile);
+   @Before
+   public void setUp() {
+      openShiftClient = TEST_BED.getOpenShiftClient();
+      pomModifier = TEST_BED.getPomModifier();
+      clientOperations = TEST_BED.getClientOperations();
+   }
 
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitTillApplicationPodStarts("deploymentType", "deployOnce");
-        TimeUnit.SECONDS.sleep(20);
-        assertDeployment(false);
+   @Test
+   public void deploy_vertx_app_once() throws Exception {
+      addViewRoleToDefaultServiceAccount();
+      createConfigMapResourceForApp(TESTSUITE_CONFIGMAP_NAME);
 
-        openShiftClient.configMaps().inNamespace(testsuiteNamespace).withName(TESTSUITE_CONFIGMAP_NAME).delete();
-    }
+      pomModifier.addRedeploymentAnnotations("deploymentType", "deployOnce",
+         FMP_PLUGIN_CONFIG_FILE);
 
-    @Test
-    public void redeploy_vertx_app() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_CONFIGMAP_BOOSTER_GIT, RELATIVE_POM_PATH);
+      deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+      clientOperations.waitTillApplicationPodStarts("deploymentType", "deployOnce", pomModifier.getArtifactId());
+      TimeUnit.SECONDS.sleep(20);
+      assertDeployment(false);
+   }
 
-        // Make some changes in ConfigMap and rollout
-        createConfigMapResourceForApp(TESTSUITE_CONFIGMAP_NAME);
-        updateSourceCode(testRepository, RELATIVE_POM_PATH);
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, ANNOTATION_KEY, ANNOTATION_VALUE, fmpConfigurationFile);
+   @Test
+   public void redeploy_vertx_app() throws Exception {
+      // Make some changes in ConfigMap and rollout
+      createConfigMapResourceForApp(TESTSUITE_CONFIGMAP_NAME);
 
-        // 2. Re-Deployment
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+      pomModifier.addCommonLangDependency();
+      pomModifier.addRedeploymentAnnotations(ANNOTATION_KEY, ANNOTATION_VALUE,
+         FMP_PLUGIN_CONFIG_FILE);
+
+      // 2. Re-Deployment
+      deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
         /*
          * Since the maintainers of this booster project have moved the configmap to
          * src/main/fabric8 directory the configmap resource gets created during the
          * time of compilation.
          */
-        editConfigMapResourceForApp(TESTSUITE_CONFIGMAP_NAME);
-        waitAfterDeployment(true);
-        assertDeployment(true);
+      editConfigMapResourceForApp(TESTSUITE_CONFIGMAP_NAME);
+      waitAfterDeployment(true);
+      assertDeployment(true);
+   }
 
-        openShiftClient.configMaps().inNamespace(testsuiteNamespace).withName(TESTSUITE_CONFIGMAP_NAME).delete();
-    }
+   @After
+   public void removeApp() {
+      openShiftClient
+         .configMaps()
+         .inNamespace(TEST_BED.getTestClassNamespace())
+         .withName(TESTSUITE_CONFIGMAP_NAME)
+         .delete();
+   }
 
-    private void deploy(Repository testRepository, String buildGoal, String buildProfile) throws Exception {
-        runEmbeddedMavenBuild(testRepository, buildGoal, buildProfile);
-    }
+   private void waitAfterDeployment(boolean bIsRedeployed) throws Exception {
+      // Waiting for application pod to start.
+      if (bIsRedeployed) {
+         clientOperations.waitTillApplicationPodStarts(ANNOTATION_KEY, ANNOTATION_VALUE, pomModifier.getArtifactId());
+      } else {
+         clientOperations.waitTillApplicationPodStarts(pomModifier.getArtifactId());
+      }
+      // Wait for Services, Route, ConfigMaps to refresh according to the deployment.
+      TimeUnit.SECONDS.sleep(20);
+   }
 
-    private void waitAfterDeployment(boolean bIsRedeployed) throws Exception {
-        // Waiting for application pod to start.
-        if (bIsRedeployed)
-            waitTillApplicationPodStarts(ANNOTATION_KEY, ANNOTATION_VALUE);
-        else
-            waitTillApplicationPodStarts();
-        // Wait for Services, Route, ConfigMaps to refresh according to the deployment.
-        TimeUnit.SECONDS.sleep(20);
-    }
+   private void assertDeployment(boolean bIsRedeployed) throws Exception {
+      final String projectArtifactId = pomModifier.getArtifactId();
+      assertThat(openShiftClient).deployment(projectArtifactId);
+      assertThat(openShiftClient).service(projectArtifactId);
 
-    private void assertDeployment(boolean bIsRedeployed) throws Exception {
-        assertThat(openShiftClient).deployment(testsuiteRepositoryArtifactId);
-        assertThat(openShiftClient).service(testsuiteRepositoryArtifactId);
+      RouteAssert.assertRoute(openShiftClient, projectArtifactId);
+      if (bIsRedeployed) {
+         assert assertApplicationEndpoint("content", "Bonjour, World from a ConfigMap !");
+      } else {
+         assert assertApplicationEndpoint("content", "Hello, World from a ConfigMap !");
+      }
+   }
 
-        RouteAssert.assertRoute(openShiftClient, testsuiteRepositoryArtifactId);
-        if (bIsRedeployed)
-            assert assertApplicationEndpoint("content", "Bonjour, World from a ConfigMap !");
-        else
-            assert assertApplicationEndpoint("content", "Hello, World from a ConfigMap !");
-    }
+   private boolean assertApplicationEndpoint(String key, String value) throws Exception {
+      Route applicationRoute = clientOperations.applicationRouteWithName(pomModifier.getArtifactId());
+      String hostUrl = applicationRoute.getSpec().getHost() + "/api/greeting";
+      Response response = makeHttpRequest(HttpRequestType.GET, "http://" + hostUrl, null);
+      return new JSONObject(response.body().string()).getString(key).equals(value);
+   }
 
-    private boolean assertApplicationEndpoint(String key, String value) throws Exception {
-        Route applicationRoute = getApplicationRouteWithName(testsuiteRepositoryArtifactId);
-        String hostUrl = applicationRoute.getSpec().getHost() + TEST_ENDPOINT;
-        Response response = makeHttpRequest(HttpRequestType.GET, "http://" + hostUrl, null);
-        return new JSONObject(response.body().string()).getString(key).equals(value);
-    }
+   private void createConfigMapResourceForApp(String configMapName) throws Exception {
+      Map<String, String> configMapData = new HashMap<>();
+      File aConfigMapFile = new File(getClass().getResource(appConfigFile).getFile());
 
-    private void createConfigMapResourceForApp(String configMapName) throws Exception {
-        Map<String, String> configMapData = new HashMap<>();
-        File aConfigMapFile = new File(getClass().getResource(appConfigFile).getFile());
+      configMapData.put("app-config.yml", FileUtils.readFileToString(aConfigMapFile));
 
-        configMapData.put("app-config.yml", FileUtils.readFileToString(aConfigMapFile));
+      clientOperations.createConfigMapResource(configMapName, configMapData);
+   }
 
-        createConfigMapResource(configMapName, configMapData);
-    }
+   private void editConfigMapResourceForApp(String configMapName) throws Exception {
+      Map<String, String> configMapData = new HashMap<>();
+      File aConfigMapFile = new File(getClass().getResource(appConfigFile).getFile());
 
-    private void editConfigMapResourceForApp(String configMapName) throws Exception {
-        Map<String, String> configMapData = new HashMap<>();
-        File aConfigMapFile = new File(getClass().getResource(appConfigFile).getFile());
+      String content = FileUtils.readFileToString(aConfigMapFile);
+      content = content.replace("Hello", "Bonjour");
+      configMapData.put("app-config.yml", content);
 
-        String content = FileUtils.readFileToString(aConfigMapFile);
-        content = content.replace("Hello", "Bonjour");
-        configMapData.put("app-config.yml", content);
-
-        createOrReplaceConfigMap(configMapName, configMapData);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        cleanSampleTestRepository();
-    }
+      clientOperations.createOrReplaceConfigMap(configMapName, configMapData);
+   }
 }

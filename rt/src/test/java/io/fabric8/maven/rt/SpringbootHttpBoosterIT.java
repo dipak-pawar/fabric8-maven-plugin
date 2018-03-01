@@ -16,96 +16,96 @@
 
 package io.fabric8.maven.rt;
 
-import io.fabric8.openshift.api.model.*;
-import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Repository;
-import org.junit.After;
-import org.testng.annotations.Test;
-
+import io.fabric8.maven.rt.helper.OpenshiftClientOperations;
+import io.fabric8.maven.rt.helper.PomModifier;
+import io.fabric8.maven.rt.rules.Project;
+import io.fabric8.maven.rt.rules.TestBed;
+import io.fabric8.openshift.api.model.Route;
+import io.fabric8.openshift.client.OpenShiftClient;
 import java.util.concurrent.TimeUnit;
+import org.apache.http.HttpStatus;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
 
 import static io.fabric8.kubernetes.assertions.Assertions.assertThat;
 
-/**
- * Created by hshinde on 11/23/17.
- */
 public class SpringbootHttpBoosterIT extends BaseBoosterIT {
 
-    private final String SPRING_BOOT_HTTP_BOOSTER_GIT = "https://github.com/snowdrop/spring-boot-http-booster.git";
+   @ClassRule
+   public static final TestBed TEST_BED =
+      new TestBed("https://github.com/snowdrop/spring-boot-http-booster.git");
 
-    private final String ANNOTATION_KEY = "testKey", ANNOTATION_VALUE = "testValue";
+   @Rule
+   public final Project project = new Project(TEST_BED);
 
-    private final String FMP_CONFIGURATION_FILE = "/fmp-plugin-config.xml";
+   private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL = "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true", EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE = "openshift";
 
-    private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL = "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true", EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE = "openshift";
+   private OpenShiftClient openShiftClient;
+   private PomModifier pomModifier;
+   private OpenshiftClientOperations clientOperations;
 
-    private final String RELATIVE_POM_PATH = "/pom.xml";
+   @Before
+   public void setUp() {
+      openShiftClient = TEST_BED.getOpenShiftClient();
+      pomModifier = TEST_BED.getPomModifier();
+      clientOperations = TEST_BED.getClientOperations();
+   }
 
     @Test
     public void deploy_springboot_app_once() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_HTTP_BOOSTER_GIT, RELATIVE_POM_PATH);
+       final String projectArtifactId = pomModifier.getArtifactId();
+       pomModifier.addRedeploymentAnnotations("deploymentType", "deployOnce",
+          FMP_PLUGIN_CONFIG_FILE);
 
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, "deploymentType", "deployOnce", fmpConfigurationFile);
-
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitTillApplicationPodStarts("deploymentType", "deployOnce");
+       deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+       clientOperations.waitTillApplicationPodStarts("deploymentType", "deployOnce", projectArtifactId);
         TimeUnit.SECONDS.sleep(20);
-        assertApplication();
+
+       assertThat(openShiftClient).deployment(projectArtifactId);
+       assertThat(openShiftClient).service(projectArtifactId);
+       RouteAssert.assertRoute(openShiftClient, projectArtifactId);
+       assertApplicationPodRoute(clientOperations.applicationRouteWithName(projectArtifactId));
     }
 
     @Test
     public void redeploy_springboot_app() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_HTTP_BOOSTER_GIT, RELATIVE_POM_PATH);
 
         // change the source code
-        updateSourceCode(testRepository, RELATIVE_POM_PATH);
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, ANNOTATION_KEY, ANNOTATION_VALUE, FMP_CONFIGURATION_FILE);
+       final String projectArtifactId = pomModifier.getArtifactId();
+       pomModifier.addCommonLangDependency();
+       final String annotationKey = "testKey";
+       final String annotationValue = "testValue";
+       pomModifier.addRedeploymentAnnotations(annotationKey, annotationValue, FMP_PLUGIN_CONFIG_FILE);
 
         // redeploy and assert
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitUntilDeployment(true);
-        assertApplication();
-        assert checkDeploymentsForAnnotation(ANNOTATION_KEY);
+       deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+
+       clientOperations.waitTillApplicationPodStarts(annotationKey, annotationValue, projectArtifactId);
+
+       assertThat(openShiftClient).deployment(projectArtifactId);
+       assertThat(openShiftClient).service(projectArtifactId);
+       RouteAssert.assertRoute(openShiftClient, projectArtifactId);
+       assertApplicationPodRoute(clientOperations.applicationRouteWithName(projectArtifactId));
+       org.assertj.core.api.Assertions.assertThat(clientOperations.checkDeploymentsForAnnotation(annotationKey)).isTrue();
     }
 
-    private void deploy(Repository testRepository, String buildGoal, String buildProfile) throws Exception {
-        runEmbeddedMavenBuild(testRepository, buildGoal, buildProfile);
-    }
+   //*
+   // * Fetches Route information corresponding to the application pod and checks whether the
+   // * endpoint is a valid url or not.
+   // *
+   // * @throws Exception
 
-    private void assertApplication() throws Exception {
-        assertThat(openShiftClient).deployment(testsuiteRepositoryArtifactId);
-        assertThat(openShiftClient).service(testsuiteRepositoryArtifactId);
-        RouteAssert.assertRoute(openShiftClient, testsuiteRepositoryArtifactId);
-        assertApplicationPodRoute(getApplicationRouteWithName(testsuiteRepositoryArtifactId));
-    }
-
-    private void waitUntilDeployment(boolean bIsReployed) throws Exception {
-        if(bIsReployed)
-            waitTillApplicationPodStarts(ANNOTATION_KEY, ANNOTATION_VALUE);
-        else
-            waitTillApplicationPodStarts();
-    }
-
-    /**
-     * Fetches Route information corresponding to the application pod and checks whether the
-     * endpoint is a valid url or not.
-     *
-     * @throws Exception
-     */
-    private void assertApplicationPodRoute(Route applicationRoute) throws Exception {
-        String hostRoute = null;
+   private void assertApplicationPodRoute(Route applicationRoute) throws Exception {
+      String hostRoute;
         if (applicationRoute != null) {
             hostRoute = applicationRoute.getSpec().getHost();
             if (hostRoute != null) {
                 assert makeHttpRequest(HttpRequestType.GET,"http://" + hostRoute, null).code() == HttpStatus.SC_OK;;
             }
         } else {
-            throw new AssertionError("[No route found for: " + testsuiteRepositoryArtifactId + "]\n");
+           throw new AssertionError("[No route found for: " + pomModifier.getArtifactId() + "]\n");
         }
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        cleanSampleTestRepository();
     }
 }

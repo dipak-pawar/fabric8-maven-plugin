@@ -1,0 +1,597 @@
+[dipak@dhcp35-240 fabric8-maven-plugin ((68cf5206...))]$ ./mvnw -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B install -pl rt -P regression-test -Dtest=VertxHttpBoosterIT#deploy_vertx_app_once
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Fabric8 Maven :: Regression Test 3.5-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] The artifact org.apache.commons:commons-io:jar:1.3.2 has been relocated to commons-io:commons-io:jar:1.3.2
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.0:resources (default-resources) @ fabric8-maven-rt ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] ignoreDelta true
+[INFO] Copying 3 resources
+[INFO] Copying file log4j.properties
+[INFO] Copying file scripts/prepare-test-environment.sh
+[INFO] Copying file scripts/run-tests.sh
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ fabric8-maven-rt ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.0:testResources (default-testResources) @ fabric8-maven-rt ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] ignoreDelta true
+[INFO] Copying 2 resources
+[INFO] Copying file app-config.yml
+[INFO] Copying file fmp-plugin-config.xml
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ fabric8-maven-rt ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.19.1:test (default-test) @ fabric8-maven-rt ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running io.fabric8.maven.rt.VertxHttpBoosterIT
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Feb 13, 2018 8:05:01 PM org.arquillian.smart.testing.rules.git.GitCloner cloneRepositoryToTempFolder
+INFO: Cloned test repository to: /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159
+========================================================================================================
+===   Embedded Maven build started: git-cloned-repo-vertx-http-booster-9222380300283680159/pom.xml   ===
+========================================================================================================
+[WARN] Maven will be executed in interactive mode, but no input stream has been configured for this MavenInvoker instance.
+-> [INFO] Scanning for projects...
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Vert.x - HTTP 20-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) > install @ http-vertx >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ http-vertx ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-vertx-http-booster-9222380300283680159' && 'git' 'rev-parse' '--verify' 'HEAD'
+-> [INFO] Working directory: /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159
+-> [INFO] Storing buildNumber: 7ce48ea21e8d4f73f7c633285da0e00b33c09db6 at timestamp: 1518532504307
+-> [INFO] Storing buildScmBranch: master
+-> [INFO] 
+-> [INFO] --- vertx-maven-plugin:1.0.13:initialize (vmp) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ http-vertx ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 1 resource
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:resource (fmp) @ http-vertx ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator vertx
+-> [INFO] F8: vertx: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] F8: using resource templates from /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/src/main/fabric8
+-> [INFO] F8: fmp-controller: Adding a default Deployment
+-> [INFO] F8: fmp-service: Adding a default service 'http-vertx' with ports [8080]
+-> [INFO] F8: vertx-health-check: Adding readiness probe on port 8080, path='/', scheme='HTTP', with initial delay 10 seconds
+-> [INFO] F8: vertx-health-check: Adding liveness probe on port 8080, path='/', scheme='HTTP', with initial delay 180 seconds
+-> [INFO] F8: fmp-revision-history: Adding revision history limit to 2
+-> [INFO] F8: f8-icon: Adding icon for deployment
+-> [INFO] F8: f8-icon: Adding icon for service
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/openshift/http-vertx-route.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/openshift/http-vertx-deploymentconfig.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/openshift/http-vertx-svc.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/kubernetes/http-vertx-deployment.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/kubernetes/http-vertx-svc.yml resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ http-vertx ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ http-vertx ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 1 resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ http-vertx ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 2 source files to /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ http-vertx ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ http-vertx ---
+-> [INFO] Building jar: /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/http-vertx-20-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- vertx-maven-plugin:1.0.13:package (vmp) @ http-vertx ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-vertx-http-booster-9222380300283680159' && 'git' 'whatchanged' '--until=2018-02-13 14:35:12 +0000' '--date=iso' '--' '/tmp/git-cloned-repo-vertx-http-booster-9222380300283680159'
+-> [INFO] Working directory: /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:build (fmp) @ http-vertx ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator vertx
+-> [INFO] F8: vertx: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] Copying files to /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/docker/http-vertx/latest/build/maven
+-> [INFO] Building tar: /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/docker/http-vertx/latest/tmp/docker-build.tar
+-> [INFO] F8: [http-vertx:latest] "vertx": Created docker source tar /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/docker/http-vertx/latest/tmp/docker-build.tar
+-> [INFO] F8: Using BuildServiceConfig http-vertx-s2i for Source strategy
+-> [INFO] F8: Adding to ImageStream http-vertx
+-> [INFO] F8: Starting Build http-vertx-s2i
+-> [INFO] F8: Waiting for build http-vertx-s2i-2 to complete...
+-> [INFO] F8: ==================================================================
+-> [INFO] F8: Starting S2I Java Build .....
+-> [INFO] F8: S2I binary build from fabric8-maven-plugin detected
+-> [INFO] F8: Copying binaries from /tmp/src/maven to /deployments ...
+-> [INFO] F8: ... done
+-> [INFO] Current reconnect backoff is 1000 milliseconds (T0)
+-> [INFO] F8: Pushing image 172.30.1.1:5000/myproject/http-vertx:latest ...
+-> [INFO] F8: Pushed 5/6 layers, 93% complete
+-> [INFO] Current reconnect backoff is 2000 milliseconds (T1)
+-> [INFO] F8: Pushed 6/6 layers, 100% complete
+-> [INFO] F8: Push successful
+-> [INFO] F8: Build http-vertx-s2i-2 Complete
+-> [INFO] Current reconnect backoff is 4000 milliseconds (T2)
+-> [ERROR] Exception in reconnect
+-> java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@783a5cdf rejected from java.util.concurrent.ScheduledThreadPoolExecutor@3d38ddbc[Shutting down, pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 4]
+-> 	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+-> 	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+-> 	at java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule(Executors.java:729)
+-> 	at io.fabric8.kubernetes.client.dsl.internal.WatchHTTPManager$3.run(WatchHTTPManager.java:207)
+-> 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+-> 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+-> 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+-> 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+-> 	at java.lang.Thread.run(Thread.java:745)
+-> [INFO] F8: Found tag on ImageStream http-vertx tag: sha256:d1e068aae34857c250c94ebf0b499127482f0f74e1440f6cecb3db57f94131b3
+-> [INFO] F8: ImageStream http-vertx written to /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/http-vertx-is.yml
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ http-vertx ---
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/http-vertx-20-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT.pom
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/openshift.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-openshift.yml
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/openshift.json to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-openshift.json
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/kubernetes.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-kubernetes.yml
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/kubernetes.json to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-kubernetes.json
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/http-vertx-is.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-is.yml
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) < install @ http-vertx <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) @ http-vertx ---
+-> [INFO] F8: Using OpenShift at https://127.0.0.1:8443/ in namespace myproject with manifest /tmp/git-cloned-repo-vertx-http-booster-9222380300283680159/target/classes/META-INF/fabric8/openshift.yml 
+-> [INFO] OpenShift platform detected
+-> [INFO] Using project: myproject
+-> [INFO] Updating a Service from openshift.yml
+-> [INFO] Updated Service: target/fabric8/applyJson/myproject/service-http-vertx.json
+-> [INFO] Using project: myproject
+-> [INFO] Updating DeploymentConfig from openshift.yml
+-> [INFO] Updated DeploymentConfig: target/fabric8/applyJson/myproject/deploymentconfig-http-vertx.json
+-> [INFO] F8: HINT: Use the command `oc get pods -w` to watch your pods start up
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] BUILD SUCCESS
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Total time: 26.884 s
+-> [INFO] Finished at: 2018-02-13T20:05:29+05:30
+-> [INFO] Final Memory: 64M/811M
+-> [INFO] ------------------------------------------------------------------------
+========================================================================================================
+===   Embedded Maven build stopped: git-cloned-repo-vertx-http-booster-9222380300283680159/pom.xml   ===
+========================================================================================================
+Feb 13, 2018 8:05:29 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: Waiting to application pod .... 
+Feb 13, 2018 8:05:30 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts() -> Pod : http-vertx-1-4z8gm, isReady : true
+Feb 13, 2018 8:05:30 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: OK ✓ ... Pod wait over.
+Feb 13, 2018 8:05:40 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://http-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 8:05:50 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://http-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 8:06:00 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://http-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 8:06:10 PM io.fabric8.maven.rt.VertxHttpBoosterIT assertThatWeServeAsExpected
+SEVERE: Unexpected response, expecting json. Actual : <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL /api/greeting was not found on this server.</p>
+</body></html>
+
+Feb 13, 2018 8:06:10 PM io.fabric8.maven.rt.VertxHttpBoosterIT assertThatWeServeAsExpected
+SEVERE: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+org.json.JSONException: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+	at org.json.JSONTokener.syntaxError(JSONTokener.java:433)
+	at org.json.JSONObject.<init>(JSONObject.java:195)
+	at org.json.JSONObject.<init>(JSONObject.java:319)
+	at io.fabric8.maven.rt.VertxHttpBoosterIT.assertThatWeServeAsExpected(VertxHttpBoosterIT.java:101)
+	at io.fabric8.maven.rt.VertxHttpBoosterIT.assertDeployment(VertxHttpBoosterIT.java:78)
+	at io.fabric8.maven.rt.VertxHttpBoosterIT.deploy_vertx_app_once(VertxHttpBoosterIT.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:571)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:707)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:979)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.privateRun(TestRunner.java:648)
+	at org.testng.TestRunner.run(TestRunner.java:505)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1116)
+	at org.testng.TestNG.runSuites(TestNG.java:1028)
+	at org.testng.TestNG.run(TestNG.java:996)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:132)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeSingleClass(TestNGDirectoryTestSuite.java:112)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:147)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:290)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:242)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:121)
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 73.845 sec - in io.fabric8.maven.rt.VertxHttpBoosterIT
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-jar-plugin:2.6:jar (default-jar) @ fabric8-maven-rt ---
+[INFO] 
+[INFO] --- maven-jar-plugin:2.6:test-jar (default) @ fabric8-maven-rt ---
+[INFO] Building jar: /home/dipak/test-team/fabric8-maven-plugin/rt/target/fabric8-maven-rt-3.5-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.19.1:integration-test (default) @ fabric8-maven-rt ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Feb 13, 2018 8:06:17 PM org.arquillian.smart.testing.rules.git.GitCloner cloneRepositoryToTempFolder
+INFO: Cloned test repository to: /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018
+========================================================================================================
+===   Embedded Maven build started: git-cloned-repo-vertx-http-booster-4182557147323143018/pom.xml   ===
+========================================================================================================
+[WARN] Maven will be executed in interactive mode, but no input stream has been configured for this MavenInvoker instance.
+-> [INFO] Scanning for projects...
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Vert.x - HTTP 20-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) > install @ http-vertx >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ http-vertx ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-vertx-http-booster-4182557147323143018' && 'git' 'rev-parse' '--verify' 'HEAD'
+-> [INFO] Working directory: /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018
+-> [INFO] Storing buildNumber: 7ce48ea21e8d4f73f7c633285da0e00b33c09db6 at timestamp: 1518532580954
+-> [INFO] Storing buildScmBranch: master
+-> [INFO] 
+-> [INFO] --- vertx-maven-plugin:1.0.13:initialize (vmp) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ http-vertx ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 1 resource
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:resource (fmp) @ http-vertx ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator vertx
+-> [INFO] F8: vertx: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] F8: using resource templates from /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/src/main/fabric8
+-> [INFO] F8: fmp-controller: Adding a default Deployment
+-> [INFO] F8: fmp-service: Adding a default service 'http-vertx' with ports [8080]
+-> [INFO] F8: vertx-health-check: Adding readiness probe on port 8080, path='/', scheme='HTTP', with initial delay 10 seconds
+-> [INFO] F8: vertx-health-check: Adding liveness probe on port 8080, path='/', scheme='HTTP', with initial delay 180 seconds
+-> [INFO] F8: fmp-revision-history: Adding revision history limit to 2
+-> [INFO] F8: f8-icon: Adding icon for deployment
+-> [INFO] F8: f8-icon: Adding icon for service
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/openshift/http-vertx-route.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/openshift/http-vertx-deploymentconfig.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/openshift/http-vertx-svc.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/kubernetes/http-vertx-deployment.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/kubernetes/http-vertx-svc.yml resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ http-vertx ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ http-vertx ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 1 resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ http-vertx ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 2 source files to /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ http-vertx ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ http-vertx ---
+-> [INFO] Building jar: /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/http-vertx-20-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- vertx-maven-plugin:1.0.13:package (vmp) @ http-vertx ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-vertx-http-booster-4182557147323143018' && 'git' 'whatchanged' '--until=2018-02-13 14:36:30 +0000' '--date=iso' '--' '/tmp/git-cloned-repo-vertx-http-booster-4182557147323143018'
+-> [INFO] Working directory: /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:build (fmp) @ http-vertx ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator vertx
+-> [INFO] F8: vertx: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] Copying files to /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/docker/http-vertx/latest/build/maven
+-> [INFO] Building tar: /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/docker/http-vertx/latest/tmp/docker-build.tar
+-> [INFO] F8: [http-vertx:latest] "vertx": Created docker source tar /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/docker/http-vertx/latest/tmp/docker-build.tar
+-> [INFO] F8: Using BuildServiceConfig http-vertx-s2i for Source strategy
+-> [INFO] F8: Adding to ImageStream http-vertx
+-> [INFO] F8: Starting Build http-vertx-s2i
+-> [INFO] F8: Waiting for build http-vertx-s2i-3 to complete...
+-> [INFO] F8: ==================================================================
+-> [INFO] F8: Starting S2I Java Build .....
+-> [INFO] F8: S2I binary build from fabric8-maven-plugin detected
+-> [INFO] F8: Copying binaries from /tmp/src/maven to /deployments ...
+-> [INFO] F8: ... done
+-> [INFO] Current reconnect backoff is 1000 milliseconds (T0)
+-> [INFO] F8: Pushing image 172.30.1.1:5000/myproject/http-vertx:latest ...
+-> [INFO] F8: Pushed 5/6 layers, 93% complete
+-> [INFO] Current reconnect backoff is 2000 milliseconds (T1)
+-> [INFO] F8: Pushed 6/6 layers, 100% complete
+-> [INFO] F8: Push successful
+-> [INFO] F8: Build http-vertx-s2i-3 Complete
+-> [WARNING] Ignoring error for already closed/closing connection
+-> [INFO] F8: Found tag on ImageStream http-vertx tag: sha256:e3d671cf243e1f07a26daa83b9ef96a877d8aab473e1cfdffbfc2e5741f40dc3
+-> [INFO] F8: ImageStream http-vertx written to /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/http-vertx-is.yml
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ http-vertx ---
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/http-vertx-20-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT.pom
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/openshift.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-openshift.yml
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/openshift.json to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-openshift.json
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/kubernetes.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-kubernetes.yml
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/kubernetes.json to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-kubernetes.json
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/http-vertx-is.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-is.yml
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) < install @ http-vertx <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) @ http-vertx ---
+-> [INFO] F8: Using OpenShift at https://127.0.0.1:8443/ in namespace myproject with manifest /tmp/git-cloned-repo-vertx-http-booster-4182557147323143018/target/classes/META-INF/fabric8/openshift.yml 
+-> [INFO] OpenShift platform detected
+-> [INFO] Using project: myproject
+-> [INFO] Updating a Service from openshift.yml
+-> [INFO] Updated Service: target/fabric8/applyJson/myproject/service-http-vertx.json
+-> [INFO] Using project: myproject
+-> [INFO] Updating DeploymentConfig from openshift.yml
+-> [INFO] Updated DeploymentConfig: target/fabric8/applyJson/myproject/deploymentconfig-http-vertx.json
+-> [INFO] F8: HINT: Use the command `oc get pods -w` to watch your pods start up
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] BUILD SUCCESS
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Total time: 31.115 s
+-> [INFO] Finished at: 2018-02-13T20:06:50+05:30
+-> [INFO] Final Memory: 65M/833M
+-> [INFO] ------------------------------------------------------------------------
+========================================================================================================
+===   Embedded Maven build stopped: git-cloned-repo-vertx-http-booster-4182557147323143018/pom.xml   ===
+========================================================================================================
+Feb 13, 2018 8:06:50 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: Waiting to application pod .... 
+Feb 13, 2018 8:06:51 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts() -> Pod : http-vertx-1-4z8gm, isReady : true
+Feb 13, 2018 8:06:51 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: OK ✓ ... Pod wait over.
+Feb 13, 2018 8:07:01 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://http-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 8:07:11 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://http-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 8:07:21 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://http-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 8:07:31 PM io.fabric8.maven.rt.VertxHttpBoosterIT assertThatWeServeAsExpected
+SEVERE: Unexpected response, expecting json. Actual : <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL /api/greeting was not found on this server.</p>
+</body></html>
+
+Feb 13, 2018 8:07:31 PM io.fabric8.maven.rt.VertxHttpBoosterIT assertThatWeServeAsExpected
+SEVERE: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+org.json.JSONException: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+	at org.json.JSONTokener.syntaxError(JSONTokener.java:433)
+	at org.json.JSONObject.<init>(JSONObject.java:195)
+	at org.json.JSONObject.<init>(JSONObject.java:319)
+	at io.fabric8.maven.rt.VertxHttpBoosterIT.assertThatWeServeAsExpected(VertxHttpBoosterIT.java:101)
+	at io.fabric8.maven.rt.VertxHttpBoosterIT.assertDeployment(VertxHttpBoosterIT.java:78)
+	at io.fabric8.maven.rt.VertxHttpBoosterIT.deploy_vertx_app_once(VertxHttpBoosterIT.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:571)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:707)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:979)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.privateRun(TestRunner.java:648)
+	at org.testng.TestRunner.run(TestRunner.java:505)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1187)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1116)
+	at org.testng.TestNG.runSuites(TestNG.java:1028)
+	at org.testng.TestNG.run(TestNG.java:996)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:132)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:193)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:94)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:147)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:290)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:242)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:121)
+
+Feb 13, 2018 8:07:34 PM org.arquillian.smart.testing.rules.git.GitCloner cloneRepositoryToTempFolder
+INFO: Cloned test repository to: /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082
+========================================================================================================
+===   Embedded Maven build started: git-cloned-repo-vertx-http-booster-7898244373642553082/pom.xml   ===
+========================================================================================================
+[WARN] Maven will be executed in interactive mode, but no input stream has been configured for this MavenInvoker instance.
+-> [INFO] Scanning for projects...
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Vert.x - HTTP 20-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) > install @ http-vertx >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ http-vertx ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-vertx-http-booster-7898244373642553082' && 'git' 'rev-parse' '--verify' 'HEAD'
+-> [INFO] Working directory: /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082
+-> [INFO] Storing buildNumber: 7ce48ea21e8d4f73f7c633285da0e00b33c09db6 at timestamp: 1518532657892
+-> [INFO] Storing buildScmBranch: master
+-> [INFO] 
+-> [INFO] --- vertx-maven-plugin:1.0.13:initialize (vmp) @ http-vertx ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ http-vertx ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 1 resource
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:resource (fmp) @ http-vertx ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator vertx
+-> [INFO] F8: vertx: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] F8: using resource templates from /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/src/main/fabric8
+-> [INFO] F8: fmp-controller: Adding a default Deployment
+-> [INFO] F8: fmp-service: Adding a default service 'http-vertx' with ports [8080]
+-> [INFO] F8: fmp-revision-history: Adding revision history limit to 2
+-> [INFO] F8: f8-icon: Adding icon for deployment
+-> [INFO] F8: f8-icon: Adding icon for service
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/openshift/http-vertx-route.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/openshift/http-vertx-deploymentconfig.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/openshift/http-vertx-svc.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/kubernetes/http-vertx-deployment.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/kubernetes/http-vertx-svc.yml resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ http-vertx ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ http-vertx ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 1 resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ http-vertx ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 2 source files to /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ http-vertx ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ http-vertx ---
+-> [INFO] Building jar: /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/http-vertx-20-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- vertx-maven-plugin:1.0.13:package (vmp) @ http-vertx ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-vertx-http-booster-7898244373642553082' && 'git' 'whatchanged' '--until=2018-02-13 14:37:44 +0000' '--date=iso' '--' '/tmp/git-cloned-repo-vertx-http-booster-7898244373642553082'
+-> [INFO] Working directory: /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:build (fmp) @ http-vertx ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator vertx
+-> [INFO] F8: vertx: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] Copying files to /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/docker/http-vertx/latest/build/maven
+-> [INFO] Building tar: /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/docker/http-vertx/latest/tmp/docker-build.tar
+-> [INFO] F8: [http-vertx:latest] "vertx": Created docker source tar /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/docker/http-vertx/latest/tmp/docker-build.tar
+-> [INFO] F8: Using BuildServiceConfig http-vertx-s2i for Source strategy
+-> [INFO] F8: Adding to ImageStream http-vertx
+-> [INFO] F8: Starting Build http-vertx-s2i
+-> [INFO] F8: Waiting for build http-vertx-s2i-4 to complete...
+-> [INFO] F8: ==================================================================
+-> [INFO] F8: Starting S2I Java Build .....
+-> [INFO] F8: S2I binary build from fabric8-maven-plugin detected
+-> [INFO] F8: Copying binaries from /tmp/src/maven to /deployments ...
+-> [INFO] F8: ... done
+-> [INFO] Current reconnect backoff is 1000 milliseconds (T0)
+-> [INFO] F8: Pushing image 172.30.1.1:5000/myproject/http-vertx:latest ...
+-> [INFO] Current reconnect backoff is 2000 milliseconds (T1)
+-> [INFO] F8: Pushed 5/6 layers, 91% complete
+-> [INFO] F8: Pushed 6/6 layers, 100% complete
+-> [INFO] F8: Push successful
+-> [INFO] F8: Build http-vertx-s2i-4 Complete
+-> [INFO] Current reconnect backoff is 4000 milliseconds (T2)
+-> [ERROR] Exception in reconnect
+-> java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6a13b74d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@2f11246b[Shutting down, pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 4]
+-> 	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+-> 	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+-> 	at java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule(Executors.java:729)
+-> 	at io.fabric8.kubernetes.client.dsl.internal.WatchHTTPManager$3.run(WatchHTTPManager.java:207)
+-> 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+-> 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+-> 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+-> 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+-> 	at java.lang.Thread.run(Thread.java:745)
+-> [INFO] F8: Found tag on ImageStream http-vertx tag: sha256:8474ef643843e7f8d78bb8a0aa10734f18611c2122b4d28bf46464e1d72e99e8
+-> [INFO] F8: ImageStream http-vertx written to /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/http-vertx-is.yml
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ http-vertx ---
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/http-vertx-20-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT.pom
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/openshift.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-openshift.yml
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/openshift.json to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-openshift.json
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/kubernetes.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-kubernetes.yml
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/kubernetes.json to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-kubernetes.json
+-> [INFO] Installing /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/http-vertx-is.yml to /home/dipak/.m2/repository/io/openshift/booster/http-vertx/20-SNAPSHOT/http-vertx-20-SNAPSHOT-is.yml
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) < install @ http-vertx <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) @ http-vertx ---
+-> [INFO] F8: Using OpenShift at https://127.0.0.1:8443/ in namespace myproject with manifest /tmp/git-cloned-repo-vertx-http-booster-7898244373642553082/target/classes/META-INF/fabric8/openshift.yml 
+-> [INFO] OpenShift platform detected
+-> [INFO] Using project: myproject
+-> [INFO] Updating a Service from openshift.yml
+-> [INFO] Updated Service: target/fabric8/applyJson/myproject/service-http-vertx.json
+-> [INFO] Using project: myproject
+-> [INFO] Updating DeploymentConfig from openshift.yml
+-> [INFO] Updated DeploymentConfig: target/fabric8/applyJson/myproject/deploymentconfig-http-vertx.json
+-> [INFO] F8: HINT: Use the command `oc get pods -w` to watch your pods start up
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] BUILD SUCCESS
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Total time: 27.743 s
+-> [INFO] Finished at: 2018-02-13T20:08:03+05:30
+-> [INFO] Final Memory: 65M/782M
+-> [INFO] ------------------------------------------------------------------------
+========================================================================================================
+===   Embedded Maven build stopped: git-cloned-repo-vertx-http-booster-7898244373642553082/pom.xml   ===
+========================================================================================================
+Feb 13, 2018 8:08:03 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: Waiting for application pod .... 
+

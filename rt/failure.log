@@ -1,0 +1,601 @@
+Feb 13, 2018 5:28:59 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: Waiting for application pod .... 
+Feb 13, 2018 5:28:59 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(vertx-configmap-testKey, vertx-configmap-testValue) -> Pod : configmap-vertx-1-x8tf4, STATUS : OK, isPodReady : true
+Feb 13, 2018 5:28:59 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(vertx-configmap-testKey, vertx-configmap-testValue) -> Pod : configmap-vertx-2-kldcl, STATUS : OK, isPodReady : false
+Feb 13, 2018 5:29:04 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(vertx-configmap-testKey, vertx-configmap-testValue) -> Pod : configmap-vertx-1-x8tf4, STATUS : OK, isPodReady : true
+Feb 13, 2018 5:29:04 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(vertx-configmap-testKey, vertx-configmap-testValue) -> Pod : configmap-vertx-2-kldcl, STATUS : OK, isPodReady : false
+Feb 13, 2018 5:29:04 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(vertx-configmap-testKey, vertx-configmap-testValue) -> Pod : configmap-vertx-3-wxvds, STATUS : OK, isPodReady : true
+Feb 13, 2018 5:29:04 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: configmap-vertx-3-wxvds is redeployed pod.
+Feb 13, 2018 5:29:04 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: OK ✓ ... Pod wait over.
+Feb 13, 2018 5:29:34 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://configmap-vertx-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 5:29:38 PM org.arquillian.smart.testing.rules.git.GitCloner cloneRepositoryToTempFolder
+INFO: Cloned test repository to: /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546
+Feb 13, 2018 5:29:38 PM io.fabric8.maven.rt.BaseBoosterIT getProfileIndexUsingFmp
+WARNING: No profile found in project's pom.xml using fmp
+Feb 13, 2018 5:29:38 PM io.fabric8.maven.rt.BaseBoosterIT getProfileIndexWithName
+WARNING: No profile found in project's pom.xml containing openshift
+===================================================================================================================
+===   Embedded Maven build started: git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/pom.xml   ===
+===================================================================================================================
+[WARN] Maven will be executed in interactive mode, but no input stream has been configured for this MavenInvoker instance.
+-> [INFO] Scanning for projects...
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Reactor Build Order:
+-> [INFO] 
+-> [INFO] Spring Boot - ConfigMap Booster
+-> [INFO] Spring Boot - ConfigMap Booster - Greeting Service
+-> [INFO] Spring Boot - ConfigMap Booster - Tests
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Spring Boot - ConfigMap Booster 14-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5.30:deploy (default-cli) > install @ spring-boot-configmap-parent >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ spring-boot-configmap-parent ---
+Feb 13, 2018 5:29:40 PM okhttp3.internal.platform.Platform log
+WARNING: A connection to http://spring-boot-rest-http-crud-myproject.127.0.0.1.nip.io/ was leaked. Did you forget to close a response body? To see where this was allocated, set the OkHttpClient logger level to FINE: Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ spring-boot-configmap-parent ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ spring-boot-configmap-parent ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546' && 'git' 'rev-parse' '--verify' 'HEAD'
+-> [INFO] Working directory: /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546
+-> [INFO] Storing buildNumber: 4caee60fe431c4be2823eb37a29eee8fd5258b81 at timestamp: 1518523182160
+-> [INFO] Storing buildScmBranch: master
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:resource (fmp) @ spring-boot-configmap-parent ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] 
+-> [INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ spring-boot-configmap-parent ---
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:build (fmp) @ spring-boot-configmap-parent ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ spring-boot-configmap-parent ---
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-parent/14-SNAPSHOT/spring-boot-configmap-parent-14-SNAPSHOT.pom
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5.30:deploy (default-cli) < install @ spring-boot-configmap-parent <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:deploy (default-cli) @ spring-boot-configmap-parent ---
+-> [WARNING] F8: No such generated manifest file /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/target/classes/META-INF/fabric8/openshift.yml for this project so ignoring
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Spring Boot - ConfigMap Booster - Greeting Service 14-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) > install @ spring-boot-configmap-greeting >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ spring-boot-configmap-greeting ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ spring-boot-configmap-greeting ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ spring-boot-configmap-greeting ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ spring-boot-configmap-greeting ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 3 resources
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:resource (fmp) @ spring-boot-configmap-greeting ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] F8: using resource templates from /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/src/main/fabric8
+-> [INFO] F8: fmp-controller: Adding a default Deployment
+-> [INFO] F8: fmp-service: Adding a default service 'spring-boot-configmap-greeting' with ports [8080]
+-> [INFO] F8: fmp-revision-history: Adding revision history limit to 2
+-> [INFO] F8: f8-icon: Adding icon for deployment
+-> [INFO] F8: f8-icon: Adding icon for service
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/openshift/spring-boot-configmap-greeting-route.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/openshift/spring-boot-configmap-greeting-deploymentconfig.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/openshift/spring-boot-configmap-greeting-svc.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/kubernetes/spring-boot-configmap-greeting-deployment.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/kubernetes/spring-boot-configmap-greeting-svc.yml resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ spring-boot-configmap-greeting ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 4 source files to /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ spring-boot-configmap-greeting ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 2 resources
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ spring-boot-configmap-greeting ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ spring-boot-configmap-greeting ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ spring-boot-configmap-greeting ---
+-> [INFO] Building jar: /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ spring-boot-configmap-greeting ---
+-> [INFO] Attaching archive: /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT-exec.jar, with classifier: exec
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:build (fmp) @ spring-boot-configmap-greeting ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] Copying files to /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/docker/spring-boot-configmap-greeting/latest/build/maven
+-> [INFO] Building tar: /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/docker/spring-boot-configmap-greeting/latest/tmp/docker-build.tar
+-> [INFO] F8: [spring-boot-configmap-greeting:latest] "spring-boot": Created docker source tar /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/docker/spring-boot-configmap-greeting/latest/tmp/docker-build.tar
+-> [INFO] F8: Creating BuildServiceConfig spring-boot-configmap-greeting-s2i for Source build
+-> [INFO] F8: Creating ImageStream spring-boot-configmap-greeting
+-> [INFO] F8: Starting Build spring-boot-configmap-greeting-s2i
+-> [INFO] F8: Waiting for build spring-boot-configmap-greeting-s2i-1 to complete...
+-> [INFO] F8: ==================================================================
+-> [INFO] F8: Starting S2I Java Build .....
+-> [INFO] F8: S2I binary build from fabric8-maven-plugin detected
+-> [INFO] F8: Copying binaries from /tmp/src/maven to /deployments ...
+-> [INFO] F8: ... done
+-> [INFO] Current reconnect backoff is 1000 milliseconds (T0)
+-> [INFO] F8: Pushing image 172.30.1.1:5000/myproject/spring-boot-configmap-greeting:latest ...
+-> [INFO] Current reconnect backoff is 2000 milliseconds (T1)
+-> [INFO] F8: Pushed 5/6 layers, 85% complete
+-> [INFO] Current reconnect backoff is 4000 milliseconds (T2)
+-> [INFO] F8: Pushed 6/6 layers, 100% complete
+-> [INFO] F8: Push successful
+-> [INFO] F8: Build spring-boot-configmap-greeting-s2i-1 Complete
+-> [INFO] Current reconnect backoff is 8000 milliseconds (T3)
+-> [ERROR] Exception in reconnect
+-> java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@abba0bb rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4fb92f88[Shutting down, pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 6]
+-> 	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+-> 	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+-> 	at java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule(Executors.java:729)
+-> 	at io.fabric8.kubernetes.client.dsl.internal.WatchHTTPManager$3.run(WatchHTTPManager.java:207)
+-> 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+-> 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+-> 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+-> 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+-> 	at java.lang.Thread.run(Thread.java:745)
+-> [INFO] F8: Found tag on ImageStream spring-boot-configmap-greeting tag: sha256:6dbce9ad628ff3de2465ca6ac5a882c031f861db2e31e0084d33ceb291d44dd9
+-> [INFO] F8: ImageStream spring-boot-configmap-greeting written to /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/spring-boot-configmap-greeting-is.yml
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ spring-boot-configmap-greeting ---
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT.pom
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/openshift.yml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-openshift.yml
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/openshift.json to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-openshift.json
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/kubernetes.yml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-kubernetes.yml
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/kubernetes.json to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-kubernetes.json
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT-exec.jar to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-exec.jar
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/spring-boot-configmap-greeting-is.yml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-is.yml
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) < install @ spring-boot-configmap-greeting <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) @ spring-boot-configmap-greeting ---
+-> [INFO] F8: Using OpenShift at https://127.0.0.1:8443/ in namespace myproject with manifest /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/greeting-service/target/classes/META-INF/fabric8/openshift.yml 
+-> [INFO] OpenShift platform detected
+-> [INFO] Using project: myproject
+-> [INFO] Creating a Service from openshift.yml namespace myproject name spring-boot-configmap-greeting
+-> [INFO] Created Service: greeting-service/target/fabric8/applyJson/myproject/service-spring-boot-configmap-greeting.json
+-> [INFO] Using project: myproject
+-> [INFO] Creating a DeploymentConfig from openshift.yml namespace myproject name spring-boot-configmap-greeting
+-> [INFO] Created DeploymentConfig: greeting-service/target/fabric8/applyJson/myproject/deploymentconfig-spring-boot-configmap-greeting.json
+-> [INFO] Creating Route myproject:spring-boot-configmap-greeting host: null
+-> [INFO] F8: HINT: Use the command `oc get pods -w` to watch your pods start up
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Spring Boot - ConfigMap Booster - Tests 14-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5.30:deploy (default-cli) > install @ spring-boot-configmap-tests >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ spring-boot-configmap-tests ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] skip non existing resourceDirectory /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/tests/src/main/resources
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:resource (fmp) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ spring-boot-configmap-tests ---
+-> [INFO] No sources to compile
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ spring-boot-configmap-tests ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 4 resources
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ spring-boot-configmap-tests ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/tests/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ spring-boot-configmap-tests ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ spring-boot-configmap-tests ---
+-> [WARNING] JAR will be empty - no content was marked for inclusion!
+-> [INFO] Building jar: /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/tests/target/spring-boot-configmap-tests-14-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:build (fmp) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ spring-boot-configmap-tests ---
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/tests/target/spring-boot-configmap-tests-14-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-tests/14-SNAPSHOT/spring-boot-configmap-tests-14-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/tests/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-tests/14-SNAPSHOT/spring-boot-configmap-tests-14-SNAPSHOT.pom
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5.30:deploy (default-cli) < install @ spring-boot-configmap-tests <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:deploy (default-cli) @ spring-boot-configmap-tests ---
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Reactor Summary:
+-> [INFO] 
+-> [INFO] Spring Boot - ConfigMap Booster .................... SUCCESS [  6.784 s]
+-> [INFO] Spring Boot - ConfigMap Booster - Greeting Service . SUCCESS [ 34.613 s]
+-> [INFO] Spring Boot - ConfigMap Booster - Tests ............ SUCCESS [  1.800 s]
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] BUILD SUCCESS
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Total time: 43.832 s
+-> [INFO] Finished at: 2018-02-13T17:30:23+05:30
+-> [INFO] Final Memory: 75M/749M
+-> [INFO] ------------------------------------------------------------------------
+===================================================================================================================
+===   Embedded Maven build stopped: git-cloned-repo-spring-boot-configmap-booster-6651288927584425546/pom.xml   ===
+===================================================================================================================
+Feb 13, 2018 5:30:24 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: Waiting for application pod .... 
+Feb 13, 2018 5:30:24 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(springboot-configmap-testKey, springboot-configmap-testValue) -> Pod : spring-boot-configmap-greeting-1-z2p8v, STATUS : ERROR, isPodReady : false
+Feb 13, 2018 5:30:24 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: spring-boot-configmap-greeting-1-z2p8v is redeployed pod.
+Feb 13, 2018 5:30:29 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts(springboot-configmap-testKey, springboot-configmap-testValue) -> Pod : spring-boot-configmap-greeting-1-z2p8v, STATUS : OK, isPodReady : true
+Feb 13, 2018 5:30:29 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: spring-boot-configmap-greeting-1-z2p8v is redeployed pod.
+Feb 13, 2018 5:30:29 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: OK ✓ ... Pod wait over.
+Feb 13, 2018 5:31:00 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://spring-boot-configmap-greeting-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Feb 13, 2018 5:31:02 PM org.arquillian.smart.testing.rules.git.GitCloner cloneRepositoryToTempFolder
+INFO: Cloned test repository to: /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898
+Feb 13, 2018 5:31:02 PM io.fabric8.maven.rt.BaseBoosterIT getProfileIndexUsingFmp
+WARNING: No profile found in project's pom.xml using fmp
+Feb 13, 2018 5:31:02 PM io.fabric8.maven.rt.BaseBoosterIT getProfileIndexWithName
+WARNING: No profile found in project's pom.xml containing openshift
+Feb 13, 2018 5:31:03 PM io.fabric8.maven.rt.BaseBoosterIT exec
+INFO: role "view" added: "default"
+===================================================================================================================
+===   Embedded Maven build started: git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/pom.xml   ===
+===================================================================================================================
+[WARN] Maven will be executed in interactive mode, but no input stream has been configured for this MavenInvoker instance.
+-> [INFO] Scanning for projects...
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Reactor Build Order:
+-> [INFO] 
+-> [INFO] Spring Boot - ConfigMap Booster
+-> [INFO] Spring Boot - ConfigMap Booster - Greeting Service
+-> [INFO] Spring Boot - ConfigMap Booster - Tests
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Spring Boot - ConfigMap Booster 14-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5.30:deploy (default-cli) > install @ spring-boot-configmap-parent >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ spring-boot-configmap-parent ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ spring-boot-configmap-parent ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ spring-boot-configmap-parent ---
+-> [INFO] Executing: /bin/sh -c cd '/tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898' && 'git' 'rev-parse' '--verify' 'HEAD'
+-> [INFO] Working directory: /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898
+-> [INFO] Storing buildNumber: 4caee60fe431c4be2823eb37a29eee8fd5258b81 at timestamp: 1518523269714
+-> [INFO] Storing buildScmBranch: master
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:resource (fmp) @ spring-boot-configmap-parent ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] 
+-> [INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ spring-boot-configmap-parent ---
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:build (fmp) @ spring-boot-configmap-parent ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ spring-boot-configmap-parent ---
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-parent/14-SNAPSHOT/spring-boot-configmap-parent-14-SNAPSHOT.pom
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5.30:deploy (default-cli) < install @ spring-boot-configmap-parent <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:deploy (default-cli) @ spring-boot-configmap-parent ---
+-> [WARNING] F8: No such generated manifest file /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/target/classes/META-INF/fabric8/openshift.yml for this project so ignoring
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Spring Boot - ConfigMap Booster - Greeting Service 14-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) > install @ spring-boot-configmap-greeting >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ spring-boot-configmap-greeting ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ spring-boot-configmap-greeting ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ spring-boot-configmap-greeting ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ spring-boot-configmap-greeting ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 3 resources
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:resource (fmp) @ spring-boot-configmap-greeting ---
+-> [INFO] F8: Running in OpenShift mode
+-> [INFO] F8: Using docker image name of namespace: myproject
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] F8: using resource templates from /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/src/main/fabric8
+-> [INFO] F8: fmp-controller: Adding a default Deployment
+-> [INFO] F8: fmp-service: Adding a default service 'spring-boot-configmap-greeting' with ports [8080]
+-> [INFO] F8: fmp-revision-history: Adding revision history limit to 2
+-> [INFO] F8: f8-icon: Adding icon for deployment
+-> [INFO] F8: f8-icon: Adding icon for service
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/openshift/spring-boot-configmap-greeting-route.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/openshift/spring-boot-configmap-greeting-deploymentconfig.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/openshift/spring-boot-configmap-greeting-svc.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/kubernetes/spring-boot-configmap-greeting-deployment.yml resource
+-> [INFO] F8: validating /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/kubernetes/spring-boot-configmap-greeting-svc.yml resource
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ spring-boot-configmap-greeting ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 4 source files to /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ spring-boot-configmap-greeting ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 2 resources
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ spring-boot-configmap-greeting ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ spring-boot-configmap-greeting ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ spring-boot-configmap-greeting ---
+-> [INFO] Building jar: /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ spring-boot-configmap-greeting ---
+-> [INFO] Attaching archive: /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT-exec.jar, with classifier: exec
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:build (fmp) @ spring-boot-configmap-greeting ---
+-> [INFO] F8: Using OpenShift build with strategy S2I
+-> [INFO] F8: Running generator spring-boot
+-> [INFO] F8: spring-boot: Using Docker image registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift as base / builder
+-> [INFO] Copying files to /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/docker/spring-boot-configmap-greeting/latest/build/maven
+-> [INFO] Building tar: /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/docker/spring-boot-configmap-greeting/latest/tmp/docker-build.tar
+-> [INFO] F8: [spring-boot-configmap-greeting:latest] "spring-boot": Created docker source tar /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/docker/spring-boot-configmap-greeting/latest/tmp/docker-build.tar
+-> [INFO] F8: Using BuildServiceConfig spring-boot-configmap-greeting-s2i for Source strategy
+-> [INFO] F8: Adding to ImageStream spring-boot-configmap-greeting
+-> [INFO] F8: Starting Build spring-boot-configmap-greeting-s2i
+Feb 13, 2018 5:31:36 PM okhttp3.internal.platform.Platform log
+WARNING: A connection to http://spring-boot-rest-http-crud-myproject.127.0.0.1.nip.io/ was leaked. Did you forget to close a response body? To see where this was allocated, set the OkHttpClient logger level to FINE: Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
+-> [INFO] F8: Waiting for build spring-boot-configmap-greeting-s2i-2 to complete...
+-> [INFO] F8: ==================================================================
+-> [INFO] F8: Starting S2I Java Build .....
+-> [INFO] F8: S2I binary build from fabric8-maven-plugin detected
+-> [INFO] F8: Copying binaries from /tmp/src/maven to /deployments ...
+-> [INFO] F8: ... done
+-> [INFO] Current reconnect backoff is 1000 milliseconds (T0)
+-> [INFO] Current reconnect backoff is 2000 milliseconds (T1)
+-> [INFO] F8: Pushing image 172.30.1.1:5000/myproject/spring-boot-configmap-greeting:latest ...
+-> [INFO] F8: Pushed 5/6 layers, 85% complete
+-> [INFO] Current reconnect backoff is 4000 milliseconds (T2)
+-> [INFO] Current reconnect backoff is 8000 milliseconds (T3)
+-> [INFO] F8: Pushed 6/6 layers, 100% complete
+-> [INFO] F8: Push successful
+-> [INFO] F8: Build spring-boot-configmap-greeting-s2i-2 Complete
+-> [INFO] Current reconnect backoff is 16000 milliseconds (T4)
+-> [ERROR] Exception in reconnect
+-> java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@51d4d465 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@14d6403b[Shutting down, pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 8]
+-> 	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+-> 	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+-> 	at java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule(Executors.java:729)
+-> 	at io.fabric8.kubernetes.client.dsl.internal.WatchHTTPManager$3.run(WatchHTTPManager.java:207)
+-> 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+-> 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+-> 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+-> 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+-> 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+-> 	at java.lang.Thread.run(Thread.java:745)
+-> [INFO] F8: Found tag on ImageStream spring-boot-configmap-greeting tag: sha256:9aa19fdb3d868e0c5ffac3dc22b1cfa2db366d75c9356b33e99366aadc7376e2
+-> [INFO] F8: ImageStream spring-boot-configmap-greeting written to /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/spring-boot-configmap-greeting-is.yml
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ spring-boot-configmap-greeting ---
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT.pom
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/openshift.yml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-openshift.yml
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/openshift.json to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-openshift.json
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/kubernetes.yml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-kubernetes.yml
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/kubernetes.json to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-kubernetes.json
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/spring-boot-configmap-greeting-14-SNAPSHOT-exec.jar to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-exec.jar
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/spring-boot-configmap-greeting-is.yml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-greeting/14-SNAPSHOT/spring-boot-configmap-greeting-14-SNAPSHOT-is.yml
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) < install @ spring-boot-configmap-greeting <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5-SNAPSHOT:deploy (default-cli) @ spring-boot-configmap-greeting ---
+-> [INFO] F8: Using OpenShift at https://127.0.0.1:8443/ in namespace myproject with manifest /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/greeting-service/target/classes/META-INF/fabric8/openshift.yml 
+-> [INFO] OpenShift platform detected
+-> [INFO] Using project: myproject
+-> [INFO] Updating a Service from openshift.yml
+-> [INFO] Updated Service: greeting-service/target/fabric8/applyJson/myproject/service-spring-boot-configmap-greeting.json
+-> [INFO] Using project: myproject
+-> [INFO] Updating DeploymentConfig from openshift.yml
+-> [INFO] Updated DeploymentConfig: greeting-service/target/fabric8/applyJson/myproject/deploymentconfig-spring-boot-configmap-greeting.json
+-> [INFO] F8: HINT: Use the command `oc get pods -w` to watch your pods start up
+-> [INFO]                                                                         
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Building Spring Boot - ConfigMap Booster - Tests 14-SNAPSHOT
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] 
+-> [INFO] >>> fabric8-maven-plugin:3.5.30:deploy (default-cli) > install @ spring-boot-configmap-tests >>>
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-java-version) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven-version) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- buildnumber-maven-plugin:1.4:create (get-scm-revision) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:resources (default-resources) @ spring-boot-configmap-tests ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] skip non existing resourceDirectory /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/tests/src/main/resources
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:resource (fmp) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ spring-boot-configmap-tests ---
+-> [INFO] No sources to compile
+-> [INFO] 
+-> [INFO] --- maven-resources-plugin:3.0.2:testResources (default-testResources) @ spring-boot-configmap-tests ---
+-> [INFO] Using 'UTF-8' encoding to copy filtered resources.
+-> [INFO] Copying 4 resources
+-> [INFO] 
+-> [INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ spring-boot-configmap-tests ---
+-> [INFO] Changes detected - recompiling the module!
+-> [INFO] Compiling 1 source file to /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/tests/target/test-classes
+-> [INFO] 
+-> [INFO] --- maven-surefire-plugin:2.20:test (default-test) @ spring-boot-configmap-tests ---
+-> [INFO] Tests are skipped.
+-> [INFO] 
+-> [INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ spring-boot-configmap-tests ---
+-> [WARNING] JAR will be empty - no content was marked for inclusion!
+-> [INFO] Building jar: /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/tests/target/spring-boot-configmap-tests-14-SNAPSHOT.jar
+-> [INFO] 
+-> [INFO] --- spring-boot-maven-plugin:1.5.8.RELEASE:repackage (default) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:build (fmp) @ spring-boot-configmap-tests ---
+-> [INFO] 
+-> [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ spring-boot-configmap-tests ---
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/tests/target/spring-boot-configmap-tests-14-SNAPSHOT.jar to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-tests/14-SNAPSHOT/spring-boot-configmap-tests-14-SNAPSHOT.jar
+-> [INFO] Installing /tmp/git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/tests/pom.xml to /home/dipak/.m2/repository/io/openshift/booster/spring-boot-configmap-tests/14-SNAPSHOT/spring-boot-configmap-tests-14-SNAPSHOT.pom
+-> [INFO] 
+-> [INFO] <<< fabric8-maven-plugin:3.5.30:deploy (default-cli) < install @ spring-boot-configmap-tests <<<
+-> [INFO] 
+-> [INFO] --- fabric8-maven-plugin:3.5.30:deploy (default-cli) @ spring-boot-configmap-tests ---
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Reactor Summary:
+-> [INFO] 
+-> [INFO] Spring Boot - ConfigMap Booster .................... SUCCESS [ 10.957 s]
+-> [INFO] Spring Boot - ConfigMap Booster - Greeting Service . SUCCESS [ 43.584 s]
+-> [INFO] Spring Boot - ConfigMap Booster - Tests ............ SUCCESS [  3.585 s]
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] BUILD SUCCESS
+-> [INFO] ------------------------------------------------------------------------
+-> [INFO] Total time: 59.298 s
+-> [INFO] Finished at: 2018-02-13T17:32:05+05:30
+-> [INFO] Final Memory: 76M/942M
+-> [INFO] ------------------------------------------------------------------------
+===================================================================================================================
+===   Embedded Maven build stopped: git-cloned-repo-spring-boot-configmap-booster-4720995459131342898/pom.xml   ===
+===================================================================================================================
+Feb 13, 2018 5:32:06 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: Waiting to application pod .... 
+Feb 13, 2018 5:32:06 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: waitTillApplicationPodStarts() -> Pod : spring-boot-configmap-greeting-2-gg74j, isReady : true
+Feb 13, 2018 5:32:06 PM io.fabric8.maven.rt.BaseBoosterIT waitTillApplicationPodStarts
+INFO: OK ✓ ... Pod wait over.
+Feb 13, 2018 5:32:36 PM io.fabric8.maven.rt.BaseBoosterIT makeHttpRequest
+INFO: [GET] http://spring-boot-configmap-greeting-myproject.127.0.0.1.nip.io/api/greeting [404 Not Found]
+Tests run: 10, Failures: 7, Errors: 0, Skipped: 0, Time elapsed: 1,197.529 sec <<< FAILURE! - in TestSuite
+redeploy_springboot_app(io.fabric8.maven.rt.SpringbootHttpBoosterIT)  Time elapsed: 338.966 sec  <<< FAILURE!
+java.lang.AssertionError: Pod wait timeout! Could not find application pod for spring-boot-rest-http
+	at io.fabric8.maven.rt.SpringbootHttpBoosterIT.waitUntilDeployment(SpringbootHttpBoosterIT.java:79)
+	at io.fabric8.maven.rt.SpringbootHttpBoosterIT.redeploy_springboot_app(SpringbootHttpBoosterIT.java:61)
+
+redeploy_springboot_app on redeploy_springboot_app(io.fabric8.maven.rt.SpringbootCrudBoosterIT)(io.fabric8.maven.rt.SpringbootCrudBoosterIT)  Time elapsed: 137.83 sec  <<< FAILURE!
+java.lang.AssertionError
+	at io.fabric8.maven.rt.SpringbootCrudBoosterIT.executeCRUDAssertions(SpringbootCrudBoosterIT.java:99)
+	at io.fabric8.maven.rt.SpringbootCrudBoosterIT.assertApplication(SpringbootCrudBoosterIT.java:77)
+	at io.fabric8.maven.rt.SpringbootCrudBoosterIT.redeploy_springboot_app(SpringbootCrudBoosterIT.java:65)
+
+deploy_springboot_app_once on deploy_springboot_app_once(io.fabric8.maven.rt.SpringbootCrudBoosterIT)(io.fabric8.maven.rt.SpringbootCrudBoosterIT)  Time elapsed: 115.713 sec  <<< FAILURE!
+java.lang.AssertionError
+	at io.fabric8.maven.rt.SpringbootCrudBoosterIT.executeCRUDAssertions(SpringbootCrudBoosterIT.java:99)
+	at io.fabric8.maven.rt.SpringbootCrudBoosterIT.assertApplication(SpringbootCrudBoosterIT.java:77)
+	at io.fabric8.maven.rt.SpringbootCrudBoosterIT.deploy_springboot_app_once(SpringbootCrudBoosterIT.java:51)
+
+deploy_vertx_app_once on deploy_vertx_app_once(io.fabric8.maven.rt.VertxConfigmapBoosterIT)(io.fabric8.maven.rt.VertxConfigmapBoosterIT)  Time elapsed: 104.667 sec  <<< FAILURE!
+org.json.JSONException: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+	at io.fabric8.maven.rt.VertxConfigmapBoosterIT.assertApplicationEndpoint(VertxConfigmapBoosterIT.java:114)
+	at io.fabric8.maven.rt.VertxConfigmapBoosterIT.assertDeployment(VertxConfigmapBoosterIT.java:107)
+	at io.fabric8.maven.rt.VertxConfigmapBoosterIT.deploy_vertx_app_once(VertxConfigmapBoosterIT.java:57)
+
+redeploy_vertx_app on redeploy_vertx_app(io.fabric8.maven.rt.VertxConfigmapBoosterIT)(io.fabric8.maven.rt.VertxConfigmapBoosterIT)  Time elapsed: 73.452 sec  <<< FAILURE!
+org.json.JSONException: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+	at io.fabric8.maven.rt.VertxConfigmapBoosterIT.assertApplicationEndpoint(VertxConfigmapBoosterIT.java:114)
+	at io.fabric8.maven.rt.VertxConfigmapBoosterIT.assertDeployment(VertxConfigmapBoosterIT.java:105)
+	at io.fabric8.maven.rt.VertxConfigmapBoosterIT.redeploy_vertx_app(VertxConfigmapBoosterIT.java:80)
+
+redeploy_springboot_app on redeploy_springboot_app(io.fabric8.maven.rt.SpringbootConfigmapBoosterIT)(io.fabric8.maven.rt.SpringbootConfigmapBoosterIT)  Time elapsed: 85.192 sec  <<< FAILURE!
+org.json.JSONException: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+	at io.fabric8.maven.rt.SpringbootConfigmapBoosterIT.assertApplicationEndpoint(SpringbootConfigmapBoosterIT.java:108)
+	at io.fabric8.maven.rt.SpringbootConfigmapBoosterIT.assertApplication(SpringbootConfigmapBoosterIT.java:99)
+	at io.fabric8.maven.rt.SpringbootConfigmapBoosterIT.redeploy_springboot_app(SpringbootConfigmapBoosterIT.java:73)
+
+deploy_springboot_app_once on deploy_springboot_app_once(io.fabric8.maven.rt.SpringbootConfigmapBoosterIT)(io.fabric8.maven.rt.SpringbootConfigmapBoosterIT)  Time elapsed: 96.851 sec  <<< FAILURE!
+org.json.JSONException: A JSONObject text must begin with '{' at 1 [character 2 line 1]
+	at io.fabric8.maven.rt.SpringbootConfigmapBoosterIT.assertApplicationEndpoint(SpringbootConfigmapBoosterIT.java:108)
+	at io.fabric8.maven.rt.SpringbootConfigmapBoosterIT.assertApplication(SpringbootConfigmapBoosterIT.java:101)
+	at io.fabric8.maven.rt.SpringbootConfigmapBoosterIT.deploy_springboot_app_once(SpringbootConfigmapBoosterIT.java:55)
+
+
+Results :
+
+Failed tests: 
+  SpringbootConfigmapBoosterIT.deploy_springboot_app_once:55->assertApplication:101->assertApplicationEndpoint:108 » JSON
+  SpringbootConfigmapBoosterIT.redeploy_springboot_app:73->assertApplication:99->assertApplicationEndpoint:108 » JSON
+  SpringbootCrudBoosterIT.deploy_springboot_app_once:51->assertApplication:77->executeCRUDAssertions:99
+  SpringbootCrudBoosterIT.redeploy_springboot_app:65->assertApplication:77->executeCRUDAssertions:99
+  SpringbootHttpBoosterIT.redeploy_springboot_app:61->waitUntilDeployment:79->BaseBoosterIT.waitTillApplicationPodStarts:400 Pod wait timeout! Could not find application pod for spring-boot-rest-http
+  VertxConfigmapBoosterIT.deploy_vertx_app_once:57->assertDeployment:107->assertApplicationEndpoint:114 » JSON
+  VertxConfigmapBoosterIT.redeploy_vertx_app:80->assertDeployment:105->assertApplicationEndpoint:114 » JSON
+
+Tests run: 10, Failures: 7, Errors: 0, Skipped: 0
+
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent! The file encoding for reports output files should be provided by the POM property ${project.reporting.outputEncoding}.
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.19.1:verify (default) @ fabric8-maven-rt ---
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent! The file encoding for reports output files should be provided by the POM property ${project.reporting.outputEncoding}.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 20:02 min
+[INFO] Finished at: 2018-02-13T17:32:37+05:30
+[INFO] Final Memory: 21M/444M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-failsafe-plugin:2.19.1:verify (default) on project fabric8-maven-rt: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /home/dipak/test-team/fabric8-maven-plugin/rt/target/failsafe-reports for the individual test results.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

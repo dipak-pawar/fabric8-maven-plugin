@@ -16,100 +16,117 @@
 
 package io.fabric8.maven.rt;
 
+import io.fabric8.maven.rt.helper.OpenshiftClientOperations;
+import io.fabric8.maven.rt.helper.PomModifier;
+import io.fabric8.maven.rt.rules.Project;
+import io.fabric8.maven.rt.rules.TestBed;
 import io.fabric8.openshift.api.model.Route;
-import okhttp3.Response;
-import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Repository;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.After;
-import org.testng.annotations.Test;
-
+import io.fabric8.openshift.client.OpenShiftClient;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import okhttp3.Response;
+import org.apache.http.HttpStatus;
+import org.assertj.core.api.Assertions;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
 
 import static io.fabric8.kubernetes.assertions.Assertions.assertThat;
 
 public class VertxHttpBoosterIT extends BaseBoosterIT {
-    private final String SPRING_BOOT_HTTP_BOOSTER_GIT = "https://github.com/openshiftio-vertx-boosters/vertx-http-booster.git";
 
-    private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL = "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true", EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE = "openshift";
+   @ClassRule
+   public static final TestBed TEST_BED =
+      new TestBed("https://github.com/openshiftio-vertx-boosters/vertx-http-booster.git");
 
-    private final String RELATIVE_POM_PATH = "/pom.xml";
+   @Rule
+   public final Project project = new Project(TEST_BED);
 
-    private final String testEndpoint = "/api/greeting";
+   private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL =
+      "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true", EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE =
+      "openshift";
 
-    private final String ANNOTATION_KEY = "vertx-testKey", ANNOTATION_VALUE = "vertx-testValue";
+   private final String ANNOTATION_KEY = "vertx-testKey", ANNOTATION_VALUE = "vertx-testValue";
 
-    @Test
-    public void deploy_vertx_app_once() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_HTTP_BOOSTER_GIT, RELATIVE_POM_PATH);
+   private OpenShiftClient openShiftClient;
+   private PomModifier pomModifier;
+   private OpenshiftClientOperations clientOperations;
+   private Logger logger = Logger.getLogger(VertxHealthchecksBooster.class.getName());
 
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, "deploymentType", "deployOnce", fmpConfigurationFile);
+   @Before
+   public void setUp() {
+      openShiftClient = TEST_BED.getOpenShiftClient();
+      pomModifier = TEST_BED.getPomModifier();
+      clientOperations = TEST_BED.getClientOperations();
+   }
 
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitTillApplicationPodStarts("deploymentType", "deployOnce");
-        TimeUnit.SECONDS.sleep(20);
-        assertDeployment();
-    }
+   @Test
+   public void deploy_vertx_app_once() throws Exception {
 
-    @Test
-    public void redeploy_vertx_app() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_HTTP_BOOSTER_GIT, RELATIVE_POM_PATH);
+      pomModifier.addRedeploymentAnnotations("deploymentType", "deployOnce",
+         FMP_PLUGIN_CONFIG_FILE);
 
-        // change the source code
-        updateSourceCode(testRepository, RELATIVE_POM_PATH);
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, ANNOTATION_KEY, ANNOTATION_VALUE, fmpConfigurationFile);
+      deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+      clientOperations.waitTillApplicationPodStarts("deploymentType", "deployOnce", pomModifier.getArtifactId());
+      TimeUnit.SECONDS.sleep(20);
+      assertDeployment();
+   }
 
-        // re-deploy
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitUntilDeployment(true);
-        assertDeployment();
+   @Test
+   public void redeploy_vertx_app() throws Exception {
+      final String targetPath = project.getTargetPath();
 
-        assert checkDeploymentsForAnnotation(ANNOTATION_KEY);
-    }
+      // change the source code
+      final PomModifier modifier = new PomModifier(targetPath);
+      modifier.addCommonLangDependency();
+      modifier.addRedeploymentAnnotations(ANNOTATION_KEY, ANNOTATION_VALUE,
+         FMP_PLUGIN_CONFIG_FILE);
 
-    private void deploy(Repository testRepository, String buildGoal, String buildProfile) throws Exception {
-        runEmbeddedMavenBuild(testRepository, buildGoal, buildProfile);
-    }
+      // re-deploy
+      deploy(targetPath, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+      waitUntilDeployment(true);
+      assertDeployment();
+      Assertions.assertThat(clientOperations.checkDeploymentsForAnnotation(ANNOTATION_KEY)).isTrue();
+   }
 
-    private void assertDeployment() throws Exception {
-        assertThat(openShiftClient).deployment(testsuiteRepositoryArtifactId);
-        assertThat(openShiftClient).service(testsuiteRepositoryArtifactId);
+   private void assertDeployment() throws Exception {
+      String testClassRepositoryArtifactId = pomModifier.getArtifactId();
+      assertThat(openShiftClient).deployment(testClassRepositoryArtifactId);
+      assertThat(openShiftClient).service(testClassRepositoryArtifactId);
 
-        RouteAssert.assertRoute(openShiftClient, testsuiteRepositoryArtifactId);
-        assertThatWeServeAsExpected(getApplicationRouteWithName(testsuiteRepositoryArtifactId));
-    }
+      RouteAssert.assertRoute(openShiftClient, testClassRepositoryArtifactId);
+      assertThatWeServeAsExpected(clientOperations.applicationRouteWithName(testClassRepositoryArtifactId));
+   }
 
-    private void waitUntilDeployment(boolean bIsReployed) throws Exception {
-        if(bIsReployed)
-            waitTillApplicationPodStarts(ANNOTATION_KEY, ANNOTATION_VALUE);
-        else
-            waitTillApplicationPodStarts();
-    }
+   private void waitUntilDeployment(boolean bIsReployed) throws Exception {
+      if (bIsReployed) {
+         clientOperations.waitTillApplicationPodStarts(ANNOTATION_KEY, ANNOTATION_VALUE, pomModifier.getArtifactId());
+      } else {
+         clientOperations.waitTillApplicationPodStarts(pomModifier.getArtifactId());
+      }
+   }
 
-    private void assertThatWeServeAsExpected(Route applicationRoute) throws Exception {
-        String hostUrl = "http://" + applicationRoute.getSpec().getHost() + testEndpoint;
+   private void assertThatWeServeAsExpected(Route applicationRoute) throws Exception {
+      String hostUrl = "http://" + applicationRoute.getSpec().getHost() + "/api/greeting";
 
-        int nTries = 0;
-        Response readResponse = null;
-        do {
-            readResponse = makeHttpRequest(HttpRequestType.GET, hostUrl, null);
-            nTries++;
-            TimeUnit.SECONDS.sleep(10);
-        } while(nTries < 3 && readResponse != null && readResponse.code() != HttpStatus.SC_OK);
+      int nTries = 0;
+      Response readResponse;
+      do {
+         readResponse = makeHttpRequest(HttpRequestType.GET, hostUrl, null);
+         nTries++;
+         TimeUnit.SECONDS.sleep(10);
+      } while (nTries < 3 && readResponse != null && readResponse.code() != HttpStatus.SC_OK);
 
-        String responseContent = readResponse.body().string();
-        try {
-            assert new JSONObject(responseContent).getString("content").equals("Hello, World!");
-        } catch (JSONException jsonException) {
-            logger.log(Level.SEVERE, "Unexpected response, expecting json. Actual : " + responseContent);
-            logger.log(Level.SEVERE, jsonException.getMessage(), jsonException);
-        }
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        cleanSampleTestRepository();
-    }
+      String responseContent = readResponse.body().string();
+      try {
+         assert new JSONObject(responseContent).getString("content").equals("Hello, World!");
+      } catch (JSONException jsonException) {
+         logger.log(Level.SEVERE, "Unexpected response, expecting json. Actual : " + responseContent);
+         logger.log(Level.SEVERE, jsonException.getMessage(), jsonException);
+      }
+   }
 }

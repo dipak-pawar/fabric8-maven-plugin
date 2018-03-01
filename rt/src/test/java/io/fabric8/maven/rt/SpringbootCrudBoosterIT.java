@@ -16,82 +16,90 @@
 
 package io.fabric8.maven.rt;
 
+import io.fabric8.maven.rt.helper.OpenshiftClientOperations;
+import io.fabric8.maven.rt.helper.PomModifier;
+import io.fabric8.maven.rt.rules.Project;
+import io.fabric8.maven.rt.rules.TestBed;
 import io.fabric8.openshift.api.model.Route;
+import io.fabric8.openshift.client.OpenShiftClient;
+import java.util.concurrent.TimeUnit;
 import okhttp3.Response;
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Repository;
 import org.json.JSONObject;
-import org.junit.After;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
-
 import static io.fabric8.kubernetes.assertions.Assertions.assertThat;
+import static io.fabric8.maven.rt.helper.CommandExecutor.execCommand;
+
 
 public class SpringbootCrudBoosterIT extends BaseBoosterIT {
-    private final String SPRING_BOOT_CRUD_BOOSTER_GIT = "https://github.com/snowdrop/spring-boot-crud-booster.git";
+
+    @ClassRule
+    public static final TestBed TEST_BED = new TestBed("https://github.com/snowdrop/spring-boot-crud-booster.git");
+
+    @Rule
+    public final Project project = new Project(TEST_BED);
 
     private final String EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL = "fabric8:deploy -Dfabric8.openshift.trimImageInContainerSpec=true -DskipTests", EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE = "openshift";
 
-    private final String TEST_ENDPOINT = "/api/fruits";
+    private OpenShiftClient openShiftClient;
+    private PomModifier pomModifier;
+    private OpenshiftClientOperations clientOperations;
 
-    private final String TESTSUITE_DB_NAME = "my-database", TESTSUITE_DB_IMAGE = "openshift/postgresql-92-centos7";
-
-    private final String RELATIVE_POM_PATH = "/pom.xml";
-
-    private final String ANNOTATION_KEY = "springboot-crud-testKey", ANNOTATION_VALUE = "springboot-crud-testValue";
+    @Before
+    public void setUp() {
+        openShiftClient = TEST_BED.getOpenShiftClient();
+        pomModifier = TEST_BED.getPomModifier();
+        clientOperations = TEST_BED.getClientOperations();
+    }
 
     @Test
     public void deploy_springboot_app_once() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_CRUD_BOOSTER_GIT, RELATIVE_POM_PATH);
         deployDatabaseUsingCLI();
 
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, "deploymentType", "deployOnce", fmpConfigurationFile);
+        pomModifier.addRedeploymentAnnotations("deploymentType", "deployOnce",
+           FMP_PLUGIN_CONFIG_FILE);
+        final String projectArtifactId = pomModifier.getArtifactId();
 
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitTillApplicationPodStarts("deploymentType", "deployOnce");
+        deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+        clientOperations.waitTillApplicationPodStarts("deploymentType", "deployOnce", projectArtifactId);
         TimeUnit.SECONDS.sleep(20);
-        assertApplication();
+        assertThat(openShiftClient).deployment(projectArtifactId);
+        assertThat(openShiftClient).service(projectArtifactId);
+
+        RouteAssert.assertRoute(openShiftClient, projectArtifactId);
+        executeCRUDAssertions(clientOperations.applicationRouteWithName(projectArtifactId));
     }
 
     @Test
     public void redeploy_springboot_app() throws Exception {
-        Repository testRepository = setupSampleTestRepository(SPRING_BOOT_CRUD_BOOSTER_GIT, RELATIVE_POM_PATH);
         deployDatabaseUsingCLI();
 
         // Make some changes in ConfigMap and rollout
-        updateSourceCode(testRepository, RELATIVE_POM_PATH);
-        addRedeploymentAnnotations(testRepository, RELATIVE_POM_PATH, ANNOTATION_KEY, ANNOTATION_VALUE, fmpConfigurationFile);
+        final String projectArtifactId = pomModifier.getArtifactId();
+        pomModifier.addCommonLangDependency();
+        final String annotationKey = "springboot-crud-testKey";
+        final String annotationValue = "springboot-crud-testValue";
+        pomModifier.addRedeploymentAnnotations(annotationKey, annotationValue,
+           FMP_PLUGIN_CONFIG_FILE);
 
-        deploy(testRepository, EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
-        waitAfterDeployment(true);
-        assertApplication();
-    }
+        deploy(project.getTargetPath(), EMBEDDED_MAVEN_FABRIC8_BUILD_GOAL, EMBEDDED_MAVEN_FABRIC8_BUILD_PROFILE);
+        clientOperations.waitTillApplicationPodStarts(annotationKey, annotationValue, projectArtifactId);
 
-    private void deploy(Repository testRepository, String buildGoal, String buildProfile) throws Exception {
-        runEmbeddedMavenBuild(testRepository, buildGoal, buildProfile);
-    }
-
-    private void assertApplication() throws Exception {
-        assertThat(openShiftClient).deployment(testsuiteRepositoryArtifactId);
-        assertThat(openShiftClient).service(testsuiteRepositoryArtifactId);
-
-        RouteAssert.assertRoute(openShiftClient, testsuiteRepositoryArtifactId);
-        executeCRUDAssertions(getApplicationRouteWithName(testsuiteRepositoryArtifactId));
-    }
-
-    private void waitAfterDeployment(boolean bIsRedeployed) throws Exception {
-        // Waiting for application pod to start.
-        if (bIsRedeployed)
-            waitTillApplicationPodStarts(ANNOTATION_KEY, ANNOTATION_VALUE);
-        else
-            waitTillApplicationPodStarts();
-        // Wait for Services, Route, ConfigMaps to refresh according to the deployment.
         TimeUnit.SECONDS.sleep(20);
+
+        assertThat(openShiftClient).deployment(projectArtifactId);
+        assertThat(openShiftClient).service(projectArtifactId);
+
+        RouteAssert.assertRoute(openShiftClient, projectArtifactId);
+        executeCRUDAssertions(clientOperations.applicationRouteWithName(projectArtifactId));
     }
 
     private void executeCRUDAssertions(Route applicationRoute) throws Exception {
-        String hostUrl = "http://" + applicationRoute.getSpec().getHost() + TEST_ENDPOINT;
+        String hostUrl = "http://" + applicationRoute.getSpec().getHost() + "/api/fruits";
         JSONObject jsonRequest = new JSONObject();
         String testFruitName = "Pineapple";
 
@@ -112,21 +120,11 @@ public class SpringbootCrudBoosterIT extends BaseBoosterIT {
 
 
     private void deployDatabaseUsingCLI() throws Exception {
-        /**
-         * Currently kubernetes-client doesn't have any support for oc new-app. So for now
-         * doing this.
+        /*
+          Currently kubernetes-client doesn't have any support for oc new-app. So for now
+          doing this.
          */
-        String deployCommand = "oc new-app " +
-                " -ePOSTGRESQL_USER=luke" +
-                " -ePOSTGRESQL_PASSWORD=secret " +
-                " -ePOSTGRESQL_DATABASE=my_data " +
-                TESTSUITE_DB_IMAGE +
-                " --name=" + TESTSUITE_DB_NAME;
-        exec(deployCommand);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        cleanSampleTestRepository();
+        execCommand("oc new-app -ePOSTGRESQL_USER=luke -ePOSTGRESQL_PASSWORD=secret " +
+           " -ePOSTGRESQL_DATABASE=my_data openshift/postgresql-92-centos7 --name=my-database");
     }
 }
